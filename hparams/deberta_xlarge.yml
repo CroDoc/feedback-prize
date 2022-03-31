@@ -1,0 +1,51 @@
+max_length: 512
+max_length_valid: 512
+stride: 256
+cut: true
+mask: 0.3
+skip_validation: 12
+num_folds: 5
+folds_name: new_kfold_skf__k_5_v_1_seed_2021
+callbacks:
+  patience: 20
+  weights: true
+epoch: 6
+model:
+  dropout: 0.2
+  pretrained: true
+  model_name: microsoft/deberta-xlarge
+  loss: nn.CrossEntropyLoss
+  num_labels: 10
+optimizer:
+  name: optim.AdamW
+  params:
+    lr: 6.0e-06
+scheduler:
+  name: poly
+  params:
+    epochs: 7
+    lr_end: 3.0e-07
+    power: 3.0
+  interval: step
+  warmup: 0.2
+train_loader:
+  batch_size: 2
+  drop_last: true
+  num_workers: 16
+  pin_memory: false
+  shuffle: true
+val_loader:
+  batch_size: 8
+  drop_last: false
+  num_workers: 16
+  pin_memory: false
+  shuffle: false
+trainer:
+  accumulate_grad_batches: 1
+  fast_dev_run: false
+  gpus: 1
+  precision: 16
+  num_sanity_val_steps: 0
+  resume_from_checkpoint: null
+  val_check_interval: 0.2
+  gradient_clip_val: 1.0
